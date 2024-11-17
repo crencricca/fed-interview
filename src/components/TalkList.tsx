@@ -1,16 +1,19 @@
 import { Fragment } from 'react';
 import { useVideos } from '../hooks/useVideos';
 import type { Video } from '../types/talk';
+import '../App.css';
 
 interface TalkCardProps {
   video: Video;
 }
 
 function TalkCard({ video }: TalkCardProps) {
+  // TODO: update so selects url based off aspect ratio
+  const imageURL = video.primaryImageSet[0].url;
   return (
     <article className="p-4 border rounded shadow hover:shadow-md transition-shadow">
       <img
-        src={video.primaryImageSet.url}
+        src={imageURL}
         alt={video.title}
         className="w-full h-48 object-cover rounded"
         loading="lazy"
