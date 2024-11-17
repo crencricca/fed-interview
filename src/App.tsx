@@ -22,7 +22,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
-        <div className=" text-center bg-gray-50">
+        <div className="text-center bg-gray-50">
           <main className="w-screen h-screen">
             <TalkFilters
               onSearch={setSearchQuery}

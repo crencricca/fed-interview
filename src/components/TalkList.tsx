@@ -20,10 +20,10 @@ function TalkCard({ isDisplayed, video }: TalkCardProps) {
       <img
         src={imageURL}
         alt={video.title}
-        className="object-cover max-h-full bg-center bg-cover rounded"
+        className="object-cover bg-center bg-cover rounded"
         loading="lazy"
       />
-      <div className="absolute w-full bottom-0 left-0 text-left bg-slate-50">
+      <div className="absolute w-full bottom-0 left-0 text-left bg-slate-50 px-4 py-2">
         <div className="flex flex-col gap-2">
           <h3 className="text-8xl font-bold mt-2 text-black">{video.title}</h3>
           <p className="text-2xl text-gray-600">{video.presenterDisplayName}</p>
