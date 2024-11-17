@@ -66,6 +66,7 @@ export const GET_VIDEOS = gql`
         cursor
         node {
           ...VideoInfo
+          ...TranslationVideoInfo
         }
       }
       pageInfo {
@@ -76,4 +77,5 @@ export const GET_VIDEOS = gql`
     }
   }
   ${VIDEO_FRAGMENT}
+  ${TRANSLATION_VIDEO_FRAGMENT}
 `;
