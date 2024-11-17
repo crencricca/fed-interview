@@ -1,28 +1,36 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { useVideos } from '../hooks/useVideos';
 import type { Video } from '../types/talk';
 import '../App.css';
 
 interface TalkCardProps {
+  isDisplayed: boolean,
   video: Video;
 }
 
-function TalkCard({ video }: TalkCardProps) {
+function TalkCard({ isDisplayed, video }: TalkCardProps) {
   // TODO: update so selects url based off aspect ratio
   const imageURL = video.primaryImageSet[0].url;
   const views = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(video.viewedCount)
   return (
-    <article className="p-4 border rounded shadow hover:shadow-md transition-shadow">
+    <article
+      className="border rounded shadow hover:shadow-md transition-shadow"
+      style={isDisplayed ? {} : { display: 'none' }}
+    >
       <img
         src={imageURL}
         alt={video.title}
-        className="w-full object-cover rounded"
+        className="object-cover max-h-full bg-center bg-cover rounded"
         loading="lazy"
       />
-      <h3 className="text-lg font-bold mt-2">{video.title}</h3>
-      <p className="text-sm text-gray-600">{video.presenterDisplayName}</p>
-      <div className="mt-2 text-sm text-gray-500">
-        {Math.floor(video.duration / 60)} minutes • {video.viewedCount > 10000 ? <>{views} views</> : null}
+      <div className="absolute w-full bottom-0 left-0 text-left">
+        <div className="flex flex-col gap-2">
+          <h3 className="text-8xl font-bold mt-2">{video.title}</h3>
+          <p className="text-2xl text-gray-600">{video.presenterDisplayName}</p>
+          <div className="text-lg text-gray-500">
+            {Math.floor(video.duration / 60)} minutes • {video.viewedCount > 10000 ? <>{views} views</> : null}
+          </div>
+        </div>
       </div>
     </article>
   );
@@ -46,6 +54,23 @@ export function TalkList({ searchQuery, topicFilter }: TalkListProps) {
     topicFilter,
   });
 
+  const [current, setCurrent] = useState(1);
+  const [page, setPage] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrent(prev => {
+        const next = prev + 1;
+        const endCursor = Number(data?.pages[0].videos.pageInfo.endCursor);
+        if (next < endCursor) {
+          return next;
+        } else return 1;
+      })
+      // TODO: if cursor == endCursor + 2, call next page
+    }, 1000 * 5);
+    return () => clearInterval(intervalId);
+  }, [data])
+
   if (isLoading) {
     return (
       <div role="alert" aria-busy="true" className="loading-state">
@@ -65,18 +90,18 @@ export function TalkList({ searchQuery, topicFilter }: TalkListProps) {
   }
 
   return (
-    <div>
-      <div className="flex flex-col">
+    <div className="flex flex-col object-cover">
+      <div>
         {data?.pages.map((page, i) => (
           <Fragment key={i}>
-            {page.videos.edges.map(({ node }) => (
-              <TalkCard key={node.id} video={node} />
+            {page.videos.edges.map(({ cursor, node }) => (
+              <TalkCard key={node.id} isDisplayed={current === Number(cursor)} video={node} />
             ))}
           </Fragment>
         ))}
       </div>
 
-      {hasNextPage && (
+      {/* {hasNextPage && (
         <button
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage}
@@ -84,7 +109,7 @@ export function TalkList({ searchQuery, topicFilter }: TalkListProps) {
         >
           {isFetchingNextPage ? 'Loading more...' : 'Load more'}
         </button>
-      )}
+      )} */}
     </div>
   );
 }
