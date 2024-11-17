@@ -17,7 +17,7 @@ export interface Video {
   id: number;
   title: string;
   slug: string;
-  primaryImageSet: Image;
+  primaryImageSet: Image[];
   presenterDisplayName: string;
   duration: number;
   canonicalUrl: string;

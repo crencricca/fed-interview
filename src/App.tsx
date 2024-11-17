@@ -22,7 +22,7 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
-        <div className="w-screen min-h-screen text-center bg-gray-50">
+        <div className="w-full min-h-screen text-center bg-gray-50">
           <header className="bg-white shadow">
             <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
               <h1 className="text-3xl font-bold text-gray-900">

@@ -10,18 +10,19 @@ interface TalkCardProps {
 function TalkCard({ video }: TalkCardProps) {
   // TODO: update so selects url based off aspect ratio
   const imageURL = video.primaryImageSet[0].url;
+  const views = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(video.viewedCount)
   return (
     <article className="p-4 border rounded shadow hover:shadow-md transition-shadow">
       <img
         src={imageURL}
         alt={video.title}
-        className="w-full h-48 object-cover rounded"
+        className="w-full object-cover rounded"
         loading="lazy"
       />
       <h3 className="text-lg font-bold mt-2">{video.title}</h3>
       <p className="text-sm text-gray-600">{video.presenterDisplayName}</p>
       <div className="mt-2 text-sm text-gray-500">
-        {Math.floor(video.duration / 60)} minutes • {new Intl.NumberFormat().format(video.viewedCount)} views
+        {Math.floor(video.duration / 60)} minutes • {video.viewedCount > 10000 ? <>{views} views</> : null}
       </div>
     </article>
   );
@@ -65,7 +66,7 @@ export function TalkList({ searchQuery, topicFilter }: TalkListProps) {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="flex flex-col">
         {data?.pages.map((page, i) => (
           <Fragment key={i}>
             {page.videos.edges.map(({ node }) => (

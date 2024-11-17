@@ -49,6 +49,8 @@ export const VIDEO_FRAGMENT = gql`
       url
       aspectRatioName
     }
+    duration
+    viewedCount
   }
 `;
 
