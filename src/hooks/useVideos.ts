@@ -24,12 +24,12 @@ export function useVideos({
         topic: topicFilter || undefined,
       });
       let filteredResponse = { ...response };
-      // if (searchQuery !== '') {
-      //   const filteredEdges = response.videos.edges.filter(edge => {
-      //     return edge.node.slug.includes(searchQuery);
-      //   })
-      //   filteredResponse = { ...response, videos: { ...response.videos, edges: filteredEdges } }
-      // }
+      if (searchQuery !== '') {
+        const filteredEdges = response.videos.edges.filter(edge => {
+          return edge.node.slug.includes(searchQuery);
+        })
+        filteredResponse = { ...response, videos: { ...response.videos, edges: filteredEdges } }
+      }
       return filteredResponse;
     },
     getNextPageParam: (lastPage) =>

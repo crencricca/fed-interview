@@ -35,9 +35,9 @@ export function TalkList({ searchQuery, topicFilter }: TalkListProps) {
         const pageIndex = data?.pages.length - 1;
 
         // Load next page when halfway through current page
-        if (hasNextPage && !isFetchingNextPage && nextIndex === pageLength / 2) {
+        if (hasNextPage && !isFetchingNextPage && nextIndex === Math.floor((pageLength + 1) / 2)) {
           fetchNextPage();
-        } else if (nextIndex === pageLength - 1 && pageIndex > page) {
+        } else if (nextIndex >= pageLength - 1 && pageIndex > page) {
           setPage(pageIndex);
           return 0;
         }
@@ -50,6 +50,10 @@ export function TalkList({ searchQuery, topicFilter }: TalkListProps) {
     }, 1000 * 5);
     return () => clearInterval(intervalId);
   }, [data])
+
+  useEffect(() => {
+    setIndex(0);
+  }, [searchQuery, topicFilter])
 
   if (isLoading) {
     return (
@@ -66,7 +70,7 @@ export function TalkList({ searchQuery, topicFilter }: TalkListProps) {
     return (
       <div role="alert" className="error-state">
         <h2>Error Loading Talks</h2>
-        {/* <p>{error.message}</p> */}
+        <p>{error?.message}</p>
       </div>
     );
   }
