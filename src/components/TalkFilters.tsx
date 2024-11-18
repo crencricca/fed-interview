@@ -25,7 +25,7 @@ export function TalkFilters({ onSearch, onTopicChange, selectedTopic }: TalkFilt
           aria-label="Search talks"
         />
       </div>
-      <div className="w-full sm:w-48">
+      <div className="w-full sm:w-48 p-2">
         <select
           value={selectedTopic || ''}
           onChange={(e) => onTopicChange(e.target.value)}

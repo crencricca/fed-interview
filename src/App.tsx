@@ -23,7 +23,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <ErrorBoundary>
         <div className="text-center bg-gray-50">
-          <main className="w-screen h-screen">
+          <main className="w-screen h-screen overflow-hidden">
             <TalkFilters
               onSearch={setSearchQuery}
               onTopicChange={setSelectedTopic}
