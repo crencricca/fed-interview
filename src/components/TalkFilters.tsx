@@ -15,7 +15,7 @@ export function TalkFilters({ onSearch, onTopicChange, selectedTopic }: TalkFilt
   }, [debouncedSearch]);
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+    <div className="flex flex-col sm:flex-row gap-4 px-4 py-2">
       <div className="flex-1">
         <input
           type="search"
