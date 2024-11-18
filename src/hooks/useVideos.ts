@@ -23,7 +23,14 @@ export function useVideos({
         search: searchQuery || undefined,
         topic: topicFilter || undefined,
       });
-      return response;
+      let filteredResponse = { ...response };
+      if (searchQuery !== '') {
+        const filteredEdges = response.videos.edges.filter(edge => {
+          return edge.node.slug.includes(searchQuery);
+        })
+        filteredResponse = { ...response, videos: { ...response.videos, edges: filteredEdges } }
+      }
+      return filteredResponse;
     },
     getNextPageParam: (lastPage) =>
       lastPage.videos.pageInfo.hasNextPage ? lastPage.videos.pageInfo.endCursor : undefined,
